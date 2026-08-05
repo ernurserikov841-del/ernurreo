@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>35 жылдық кездесу</title>
+<meta property="og:title" content="35 жылдық кездесу — 1991 жылғы түлектер">
+<meta property="og:description" content="Сіздерді 235 орта мектептің 1991 жылғы түлектерінің 35 жылдық кездесуіне шақырамыз. 22.08.2026, сағат 14:00, Қызылорда қаласы.">
+<meta property="og:image" content="preview.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="35 жылдық кездесу">
+<meta name="twitter:description" content="1991 жылғы түлектердің 35 жылдық кездесуі. 22.08.2026">
+<meta name="twitter:image" content="preview.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Playfair+Display:wght@600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -178,12 +186,16 @@ const playText=document.getElementById('playText');
 const RSVP_WEBAPP_URL='https://script.google.com/macros/s/AKfycbwupdPiKROFobnoPPL4rr1bBGwt9yc2u3kWR4b3pgo9otmsOn5_iciC_obfADjmmCt9/exec';
 
 document.getElementById('rsvpSubmit').addEventListener('click', async ()=>{
+ const btn=document.getElementById('rsvpSubmit');
+ if(btn.disabled) return;
  const nameInput=document.getElementById('rsvpName');
  const name=nameInput.value.trim();
  const choice=document.querySelector('input[name="rsvp"]:checked');
  if(!name){ alert('Атыңызды жазыңыз'); nameInput.focus(); return; }
  if(!choice){ alert('Бір нұсқаны таңдаңыз'); return; }
  const answer = choice.value==='yes' ? 'Иә, келемін.' : 'Өкінішке қарай, келе алмаймын.';
+ btn.disabled=true;
+ btn.textContent='Жіберілуде...';
  try{
    await fetch(RSVP_WEBAPP_URL, {
      method:'POST',
@@ -191,6 +203,7 @@ document.getElementById('rsvpSubmit').addEventListener('click', async ()=>{
      body:JSON.stringify({name, answer})
    });
  }catch(e){ console.error('RSVP error:', e); }
+ btn.textContent='Жіберілді ✓';
  alert('Жауабыңыз қабылданды. Рахмет!');
 });
 
